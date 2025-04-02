@@ -3,205 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live IPL Streaming</title>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <title>IPL 2025 Live - Hindi</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.11.8/video-js.min.css" rel="stylesheet">
     <style>
-        /* General Styling */
-        body {
-            text-align: center;
-            background: linear-gradient(45deg, #1e1e2f, #13131a);
-            color: white;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-        }
-        .container {
-            max-width: 850px;
-            width: 90%;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.1);
-        }
-        h1 {
-            font-size: 28px;
-            text-shadow: 2px 2px 10px rgba(255, 255, 255, 0.3);
-        }
-
-        /* Video Container */
-        .video-container {
-            position: relative;
-            width: 100%;
-            max-width: 800px;
-            aspect-ratio: 16 / 9;
-            background: black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 10px;
+        body { text-align: center; background-color: black; color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; }
+        h1 { font-size: 28px; font-weight: bold; color: yellow; }
+        .container { max-width: 900px; margin: auto; display: flex; flex-direction: column; align-items: center; }
+        .scrolling-text {
+            white-space: nowrap;
             overflow: hidden;
-            box-shadow: 0px 0px 15px rgba(255, 255, 255, 0.2);
-        }
-        video {
-            width: 100%;
-            height: 100%;
             display: block;
-            border-radius: 10px;
+            width: 100%;
+            color: yellow;
+            font-weight: bold;
         }
-
-        /* Play Button */
-        .play-btn {
-            position: absolute;
-            width: 90px;
-            height: 90px;
-            background: rgba(0, 0, 0, 0.6);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+        .join-btn {
+            background-color: #ffcc00;
+            color: black;
+            padding: 12px;
+            border-radius: 8px;
             cursor: pointer;
-            transition: 0.3s;
+            margin-top: 15px;
+            font-weight: bold;
         }
-        .play-btn::after {
-            content: '▶';
-            font-size: 40px;
-            color: white;
-        }
-        .play-btn:hover {
-            background: rgba(0, 0, 0, 0.8);
-        }
-
-        /* Popup */
         .popup {
             display: block;
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.9);
+            background: black;
             padding: 20px;
-            border-radius: 10px;
+            border: 2px solid yellow;
             text-align: center;
             z-index: 1000;
-            box-shadow: 0px 0px 20px rgba(255, 255, 255, 0.2);
-            animation: fadeIn 0.5s ease-in-out;
         }
-        .popup h3 {
-            color: yellow;
+        .video-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            position: relative;
         }
-        .popup button {
-            background-color: yellow;
-            color: black;
-            padding: 10px;
-            border: none;
-            cursor: pointer;
-            margin-top: 10px;
-            border-radius: 5px;
-            transition: 0.3s;
+        .video-js {
+            width: 900px;
+            height: 500px;
+            border: 4px solid yellow;
+            border-radius: 10px;
         }
-        .popup button:hover {
-            background-color: gold;
-        }
-
-        /* Quality Selector */
-        .quality-selector {
-            margin-top: 15px;
-        }
-        select {
-            padding: 8px;
-            font-size: 16px;
-            border-radius: 5px;
-            border: none;
-            outline: none;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-        }
-
-        /* Animations */
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
     </style>
 </head>
 <body>
     <div class="popup" id="popup">
-        <h3>🎉 Support Us & Win Rewards!</h3>
-        <p>Join our Telegram channel <b>CRICFyLive</b> for exclusive updates.</p>
+        <h3>Join for Latest Updates and Links!</h3>
+        <p>Follow our Telegram channel <b>CRICFyLive</b> for real-time match links.</p>
         <button onclick="window.location.href='https://t.me/cricfylive'">Join Now</button>
         <button onclick="closePopup()">Already Joined</button>
     </div>
-
+    
     <div class="container">
-        <h1>📺 Live IPL Match - Star Sports 1 Hindi</h1>
-        <marquee style="color: yellow; font-weight: bold;">🔥 Follow @cricfylive for the latest updates! 🔥</marquee>
-        
+        <h1>📺 IPL 2025 Live - Hindi</h1>
+        <marquee class="scrolling-text">Follow @cricfylive for latest match links and updates!</marquee>
         <div class="video-container">
-            <video id="videoPlayer" controls></video>
-            <div class="play-btn" id="playButton"></div>
+            <video id="live-stream" class="video-js vjs-default-skin" controls autoplay>
+                <source src="https://vkvsd250.okcdn.ru/cmaf/8177201777196/sig/j6X5gf0MwQc/srcIp/172.69.95.67/urls/45.136.22.65/expires/1743885970114/clientType/13/srcAg/CHROME/fromCache/1/mid/9469206211372/id/8177201777196/get/hls_9469206211372.VaRDHyXezr0.m3u8" type="application/x-mpegURL">
+            </video>
         </div>
-
-        <div class="quality-selector">
-            <label for="quality">🎥 Select Quality:</label>
-            <select id="quality">
-                <option value="auto">Auto</option>
-                <option value="1080p">1080p</option>
-                <option value="720p">720p</option>
-                <option value="480p">480p</option>
-                <option value="360p">360p</option>
-            </select>
-        </div>
+        <button class="join-btn" onclick="showPopup()">Join Telegram</button>
     </div>
-
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.11.8/video.min.js"></script>
     <script>
-        const video = document.getElementById("videoPlayer");
-        const playButton = document.getElementById("playButton");
-        const qualitySelector = document.getElementById("quality");
+        var player = videojs('live-stream');
+        player.play();
 
-        let streams = {
-            auto: "https://vkvsd250.okcdn.ru/cmaf/8177201777196/sig/j6X5gf0MwQc/srcIp/172.69.95.67/urls/45.136.22.65/expires/1743885970114/clientType/13/srcAg/CHROME/fromCache/1/mid/9469206211372/id/8177201777196/get/hls_9469206211372.VaRDHyXezr0.m3u8",
-            "1080p": "https://your-1080p-stream-url.m3u8",
-            "720p": "https://your-720p-stream-url.m3u8",
-            "480p": "https://your-480p-stream-url.m3u8",
-            "360p": "https://your-360p-stream-url.m3u8"
-        };
-
-        function loadStream(url) {
-            if (Hls.isSupported()) {
-                const hls = new Hls();
-                hls.loadSource(url);
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                    console.log("Stream loaded successfully.");
-                });
-            } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-                video.src = url;
-            }
+        function showPopup() {
+            document.getElementById("popup").style.display = "block";
         }
-
-        loadStream(streams.auto);
-
-        playButton.addEventListener("click", function() {
-            video.play();
-            playButton.style.display = "none";
-        });
-
-        qualitySelector.addEventListener("change", function() {
-            loadStream(streams[this.value]);
-        });
-
         function closePopup() {
             document.getElementById("popup").style.display = "none";
         }
 
+        // Show popup automatically when the website loads
         window.onload = function() {
-            document.getElementById("popup").style.display = "block";
+            showPopup();
         };
     </script>
 </body>
