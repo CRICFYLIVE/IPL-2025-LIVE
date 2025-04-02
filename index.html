@@ -6,28 +6,41 @@
     <title>IPL 2025 Live - Hindi</title>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/video.js/7.11.8/video-js.min.css" rel="stylesheet">
     <style>
-        body { text-align: center; background-color: #121212; color: white; display: flex; flex-direction: column; justify-content: center; align-items: center; height: 100vh; font-family: Arial, sans-serif; }
-        h1 { font-size: 28px; margin-bottom: 10px; }
-        .container { max-width: 900px; margin: auto; display: flex; flex-direction: column; align-items: center; }
-        .scrolling-text {
-            white-space: nowrap;
-            overflow: hidden;
-            display: block;
-            width: 100%;
-            color: #FFD700;
-            font-weight: bold;
-            font-size: 18px;
-            padding: 5px;
-        }
-        .join-btn {
-            background-color: #ff5722;
+        body {
+            text-align: center;
+            background-color: #121212;
             color: white;
-            padding: 12px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-            border: none;
-            font-size: 16px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            max-width: 900px;
+            margin: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            background: #1e1e1e;
+            border-radius: 10px;
+            box-shadow: 0px 0px 15px rgba(255, 215, 0, 0.5);
+        }
+        h1 {
+            font-size: 28px;
+            color: gold;
+        }
+        .video-container {
+            width: 100%;
+            max-width: 800px;
+            position: relative;
+        }
+        .video-js {
+            width: 100%;
+            height: 450px;
+            border-radius: 8px;
         }
         .popup {
             display: block;
@@ -35,23 +48,24 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: #222;
+            background: black;
             padding: 20px;
-            border-radius: 10px;
+            border: 2px solid yellow;
             text-align: center;
             z-index: 1000;
-            box-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
         }
-        .popup h3 { color: #FFD700; }
-        .video-container {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            width: 100%;
+        .join-btn {
+            background-color: gold;
+            color: black;
+            padding: 12px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 15px;
+            font-weight: bold;
+            border: none;
         }
-        video {
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+        .join-btn:hover {
+            background-color: orange;
         }
     </style>
 </head>
@@ -64,9 +78,8 @@
     
     <div class="container">
         <h1>📺 IPL 2025 Live - Hindi</h1>
-        <marquee class="scrolling-text">Follow @cricfylive for the latest updates!</marquee>
         <div class="video-container">
-            <video id="live-stream" class="video-js vjs-default-skin" controls autoplay width="900" height="500">
+            <video id="live-stream" class="video-js vjs-default-skin" controls autoplay>
                 <source src="https://vkvsd250.okcdn.ru/cmaf/8177201777196/sig/j6X5gf0MwQc/srcIp/172.69.95.67/urls/45.136.22.65/expires/1743885970114/clientType/13/srcAg/CHROME/fromCache/1/mid/9469206211372/id/8177201777196/get/hls_9469206211372.VaRDHyXezr0.m3u8" type="application/x-mpegURL">
             </video>
         </div>
@@ -85,10 +98,9 @@
             document.getElementById("popup").style.display = "none";
         }
 
-        // Show popup automatically when the website loads
         window.onload = function() {
             showPopup();
-        };
+        }
     </script>
 </body>
 </html>
