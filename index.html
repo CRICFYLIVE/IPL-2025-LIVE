@@ -4,233 +4,94 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPL 2025 LIVE - HINDI</title>
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Hisham+Regular&display=swap');
-
         body {
-            font-family: 'Hisham Regular', sans-serif;
             background-color: black;
             color: white;
             text-align: center;
-            margin: 0;
+            font-family: 'Poppins', sans-serif;
+        }
+        .container {
+            width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            justify-content: center;
-            height: 100vh;
         }
-
-        .container {
-            width: 90%;
-            max-width: 800px;
-        }
-
-        .header {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+        .heading {
+            font-family: 'Teko', sans-serif;
+            font-size: 40px;
+            color: white;
             margin-bottom: 10px;
         }
-
-        .header img {
-            width: 40px;
-            height: auto;
+        .slide-text {
+            font-size: 18px;
+            color: yellow;
+            font-style: italic;
+            margin-bottom: 10px;
+            animation: slide 8s linear infinite;
         }
-
-        .video-container {
+        @keyframes slide {
+            from { transform: translateX(100%); }
+            to { transform: translateX(-100%); }
+        }
+        .player {
+            width: 720px;
+            height: 480px;
+            background: #222;
+            border: 5px solid blue;
+            border-radius: 10px;
             position: relative;
-            width: 100%;
-            aspect-ratio: 16 / 9;
-            background: black;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            border-radius: 8px;
-            overflow: hidden;
         }
-
-        video {
-            width: 100%;
-            height: 100%;
-            display: block;
-        }
-
-        .play-btn {
-            position: absolute;
-            width: 80px;
-            height: 80px;
-            background: rgba(0, 0, 0, 0.7);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            cursor: pointer;
-        }
-
-        .play-btn::after {
-            content: '▶';
-            font-size: 36px;
-            color: white;
-        }
-
-        .popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            width: 250px;
-            background: rgba(0, 0, 255, 0.9);
-            padding: 20px;
-            border-radius: 8px;
+        .quality-box, .telegram-box {
+            width: 100px;
+            padding: 10px;
             text-align: center;
-            display: none;
-        }
-
-        .popup button {
-            margin-top: 10px;
-            padding: 8px 12px;
-            border: none;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            background: white;
-            color: blue;
             border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
         }
-
-        .quality-section {
-            margin-top: 10px;
-            position: relative;
-            display: inline-block;
-        }
-
-        .quality-btn {
+        .quality-box {
             background: white;
             color: black;
-            padding: 6px 10px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-weight: bold;
-            font-size: 14px;
+            margin-top: 10px;
         }
-
+        .telegram-box {
+            background: blue;
+            color: white;
+            margin-top: 10px;
+            box-shadow: 0 0 10px blue;
+        }
         .quality-list {
             display: none;
-            position: absolute;
-            top: 30px;
-            left: 50%;
-            transform: translateX(-50%);
             background: white;
             color: black;
-            padding: 10px;
-            border-radius: 5px;
-            box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .quality-list div {
             padding: 5px;
-            cursor: pointer;
-        }
-
-        .quality-list div:hover {
-            background: blue;
-            color: white;
-        }
-
-        .telegram-btn {
-            display: block;
-            margin-top: 10px;
-            background: blue;
-            color: white;
-            padding: 8px 14px;
-            text-decoration: none;
-            font-weight: bold;
+            margin-top: 5px;
             border-radius: 5px;
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/d4/Tata_IPL.svg/1200px-Tata_IPL.svg.png" alt="TATA IPL Logo">
-            <h1>IPL 2025 LIVE - HINDI</h1>
+        <div class="heading">IPL 2025 LIVE - HINDI</div>
+        <div class="slide-text">Join @cricfylive for latest updates</div>
+        <div class="player" id="videoPlayer"></div>
+        <div class="quality-box" onclick="toggleQualityList()">Auto</div>
+        <div class="quality-list" id="qualityList">
+            <div>240p</div>
+            <div>360p</div>
+            <div>480p</div>
+            <div>720p</div>
+            <div>1080p</div>
         </div>
-
-        <marquee style="color: yellow; font-weight: bold;">Follow @CRICFyLive for latest updates!</marquee>
-
-        <div class="video-container">
-            <video id="videoPlayer" controls></video>
-            <div class="play-btn" id="playButton"></div>
-        </div>
-
-        <div class="quality-section">
-            <div class="quality-btn" onclick="toggleQuality()">Change Quality</div>
-            <div class="quality-list" id="qualityList">
-                <div onclick="changeQuality('144p')">144p</div>
-                <div onclick="changeQuality('240p')">240p</div>
-                <div onclick="changeQuality('360p')">360p</div>
-                <div onclick="changeQuality('480p')">480p</div>
-                <div onclick="changeQuality('720p')">720p</div>
-                <div onclick="changeQuality('1080p')">1080p</div>
-            </div>
-        </div>
-
-        <a href="https://t.me/CRICFyLive" class="telegram-btn">Join @CRICFyLive</a>
-
-        <div class="popup" id="popup1">
-            <p>Welcome to CRICFyLive!</p>
-            <button onclick="closePopup1()">OK</button>
-        </div>
-
-        <div class="popup" id="popup2">
-            <p>Join CRICFyLive for Latest Updates!</p>
-            <button onclick="closePopup2()">Join Now</button>
-        </div>
+        <div class="telegram-box">Telegram</div>
     </div>
 
     <script>
-        const video = document.getElementById("videoPlayer");
-        const playButton = document.getElementById("playButton");
-        const popup1 = document.getElementById("popup1");
-        const popup2 = document.getElementById("popup2");
-        const qualityList = document.getElementById("qualityList");
-
-        if (Hls.isSupported()) {
-            const hls = new Hls();
-            hls.loadSource("https://example.com/live.m3u8");
-            hls.attachMedia(video);
-        } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
-            video.src = "https://example.com/live.m3u8";
+        function toggleQualityList() {
+            var list = document.getElementById("qualityList");
+            list.style.display = (list.style.display === "block") ? "none" : "block";
         }
-
-        function closePopup1() {
-            popup1.style.display = "none";
-        }
-
-        function closePopup2() {
-            popup2.style.display = "none";
-        }
-
-        function toggleQuality() {
-            qualityList.style.display = qualityList.style.display === "block" ? "none" : "block";
-        }
-
-        function changeQuality(quality) {
-            alert("Quality changed to " + quality);
-            qualityList.style.display = "none";
-        }
-
-        window.onload = function() {
-            popup1.style.display = "block";
-        };
-
-        playButton.addEventListener("click", function() {
-            video.play();
-            playButton.style.display = "none";
-            popup2.style.display = "block";
-        });
     </script>
 </body>
 </html>
