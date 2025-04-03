@@ -71,12 +71,12 @@
             -webkit-tap-highlight-color: transparent;
         }
         .quality-box {
-            width: 80px; /* Kept as is */
+            width: 80px;
             background: white;
             color: black;
         }
         .telegram-box {
-            width: 120px; /* Increased width */
+            width: 120px;
             background: blue;
             color: white;
             box-shadow: 0 0 8px blue;
@@ -105,7 +105,7 @@
             .container { padding: 5px; }
             .player { border-radius: 5px; }
             .quality-box { width: 70px; padding: 6px; }
-            .telegram-box { width: 100px; padding: 6px; } /* Slightly smaller on very small screens */
+            .telegram-box { width: 100px; padding: 6px; }
             .quality-list { width: 70px; }
         }
     </style>
@@ -158,25 +158,49 @@
         }
 
         const video = document.getElementById('liveVideo');
-        const videoSrc = 'https://vkvsd250.okcdn.ru/cmaf/8177201777196/sig/j6X5gf0MwQc/srcIp/172.69.95.67/urls/45.136.22.65/expires/1743885970114/clientType/13/srcAg/CHROME/fromCache/1/mid/9469206211372/id/8177201777196/get/hls_9469206211372.VaRDHyXezr0.m3u8';
+        const primarySrc = 'https://vkvsd250.okcdn.ru/cmaf/8177201777196/sig/j6X5gf0MwQc/srcIp/172.69.95.67/urls/45.136.22.65/expires/1743885970114/clientType/13/srcAg/CHROME/fromCache/1/mid/9469206211372/id/8177201777196/get/hls_9469206211372.VaRDHyXezr0.m3u8';
+        const backupSrc = 'https://ee4ee8c03a26.eu-central-1.playback.live-video.net/api/video/v1/eu-central-1.755921704393.channel.LOohfipmCQDP.m3u8';
 
-        if (Hls.isSupported()) {
-            hls = new Hls({
-                lowLatencyMode: true,
-                maxBufferLength: 10,
-                maxMaxBufferLength: 20
-            });
-            hls.loadSource(videoSrc);
-            hls.attachMedia(video);
-            hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                video.play().catch(err => console.log("Autoplay blocked:", err));
-            });
-        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-            video.src = videoSrc;
-            video.addEventListener('loadedmetadata', function() {
-                video.play().catch(err => console.log("Autoplay blocked:", err));
-            });
+        function loadStream(source) {
+            if (Hls.isSupported()) {
+                hls = new Hls({
+                    lowLatencyMode: true,
+                    maxBufferLength: 10,
+                    maxMaxBufferLength: 20
+                });
+                hls.loadSource(source);
+                hls.attachMedia(video);
+                hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                    video.play().catch(err => console.log("Autoplay blocked:", err));
+                });
+                hls.on(Hls.Events.ERROR, function(event, data) {
+                    if (data.fatal) {
+                        console.log("Primary stream failed:", data);
+                        if (source === primarySrc) {
+                            console.log("Switching to backup stream...");
+                            hls.destroy(); // Clean up the failed instance
+                            loadStream(backupSrc); // Load backup stream
+                        } else {
+                            console.log("Backup stream also failed.");
+                        }
+                    }
+                });
+            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = source;
+                video.addEventListener('loadedmetadata', function() {
+                    video.play().catch(err => console.log("Autoplay blocked:", err));
+                });
+                video.addEventListener('error', function() {
+                    if (source === primarySrc) {
+                        console.log("Switching to backup stream...");
+                        video.src = backupSrc;
+                    }
+                });
+            }
         }
+
+        // Start with the primary stream
+        loadStream(primarySrc);
 
         window.onload = setPlayerSize;
         window.addEventListener('resize', setPlayerSize);
