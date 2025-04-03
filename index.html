@@ -14,62 +14,72 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            overflow-x: hidden;
         }
         .container {
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 20px;
+            padding: 10px;
         }
         .heading {
             font-family: 'Teko', sans-serif;
-            font-size: 40px;
+            font-size: clamp(24px, 8vw, 40px);
             color: white;
-            margin-bottom: 10px;
+            margin-bottom: 8px;
         }
         .slide-text {
-            font-size: 18px;
+            font-size: clamp(14px, 4vw, 18px);
             color: yellow;
             font-style: italic;
-            margin-bottom: 10px;
-            animation: slide 8s linear infinite;
+            margin-bottom: 8px;
+            animation: slide 10s linear infinite;
             white-space: nowrap;
             overflow: hidden;
-            padding: 0 10px;
+            padding: 0 5px;
         }
         @keyframes slide {
             from { transform: translateX(100%); }
             to { transform: translateX(-100%); }
         }
         .player {
-            width: 95%; /* Adjusted to take a bit more width */
+            width: 100vw;
             max-width: 960px;
             aspect-ratio: 16 / 9;
             background: #222;
-            border: 5px solid blue;
-            border-radius: 10px;
-            position: relative;
+            border: 3px solid blue;
+            border-radius: 8px;
             margin-bottom: 10px;
+            overflow: hidden;
+        }
+        .player video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
         }
         .quality-box, .telegram-box {
             font-family: 'Poppins', sans-serif;
-            width: 100px;
-            padding: 10px;
+            padding: 8px;
             text-align: center;
             border-radius: 5px;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 10px;
+            margin-top: 8px;
+            user-select: none;
+            -webkit-tap-highlight-color: transparent;
         }
         .quality-box {
+            width: 80px; /* Kept as is */
             background: white;
             color: black;
         }
         .telegram-box {
+            width: 120px; /* Increased width */
             background: blue;
             color: white;
-            box-shadow: 0 0 10px blue;
+            box-shadow: 0 0 8px blue;
         }
         .quality-list {
             display: none;
@@ -79,13 +89,24 @@
             margin-top: 5px;
             border-radius: 5px;
             font-family: 'Poppins', sans-serif;
+            position: absolute;
+            width: 80px;
+            z-index: 10;
         }
         .quality-list div {
             padding: 5px 0;
             cursor: pointer;
+            font-size: 14px;
         }
         .quality-list div:hover {
             background-color: #eee;
+        }
+        @media (max-width: 600px) {
+            .container { padding: 5px; }
+            .player { border-radius: 5px; }
+            .quality-box { width: 70px; padding: 6px; }
+            .telegram-box { width: 100px; padding: 6px; } /* Slightly smaller on very small screens */
+            .quality-list { width: 70px; }
         }
     </style>
 </head>
@@ -93,35 +114,73 @@
     <div class="container">
         <div class="heading">IPL 2025 LIVE - HINDI</div>
         <div class="slide-text">Join @cricfylive for latest updates</div>
-        <div class="player" id="videoPlayer"></div>
-        <div class="quality-box" onclick="toggleQualityList()">Auto</div>
+        <div class="player" id="videoPlayer">
+            <video id="liveVideo" controls autoplay muted playsinline></video>
+        </div>
+        <div class="quality-box" id="qualityBox" onclick="toggleQualityList()">Auto</div>
         <div class="quality-list" id="qualityList">
-            <div>240p</div>
-            <div>360p</div>
-            <div>480p</div>
-            <div>720p</div>
-            <div>1080p</div>
+            <div onclick="changeQuality(-1)">Auto</div>
+            <div onclick="changeQuality(0)">240p</div>
+            <div onclick="changeQuality(1)">360p</div>
+            <div onclick="changeQuality(2)">480p</div>
+            <div onclick="changeQuality(3)">720p</div>
+            <div onclick="changeQuality(4)">1080p</div>
         </div>
         <a href="https://t.me/cricfylive" target="_blank" style="text-decoration: none;">
             <div class="telegram-box">Telegram</div>
         </a>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <script>
+        let hls;
+
         function toggleQualityList() {
-            var list = document.getElementById("qualityList");
+            const list = document.getElementById("qualityList");
             list.style.display = (list.style.display === "block") ? "none" : "block";
+        }
+
+        function changeQuality(levelIndex) {
+            const qualityBox = document.getElementById("qualityBox");
+            const qualityList = document.getElementById("qualityList");
+            if (hls) {
+                hls.currentLevel = levelIndex;
+                qualityBox.textContent = levelIndex === -1 ? "Auto" : qualityList.children[levelIndex + 1].textContent;
+            }
+            qualityList.style.display = "none";
         }
 
         function setPlayerSize() {
             const player = document.getElementById('videoPlayer');
-            const containerWidth = document.querySelector('.container').offsetWidth;
-            player.style.width = Math.min(containerWidth * 0.95, 960) + 'px'; // Increased to 95%
-            player.style.height = (player.offsetWidth * 9 / 16) + 'px';
+            const width = Math.min(window.innerWidth, 960);
+            player.style.width = width + 'px';
+            player.style.height = (width * 9 / 16) + 'px';
+        }
+
+        const video = document.getElementById('liveVideo');
+        const videoSrc = 'https://vkvsd250.okcdn.ru/cmaf/8177201777196/sig/j6X5gf0MwQc/srcIp/172.69.95.67/urls/45.136.22.65/expires/1743885970114/clientType/13/srcAg/CHROME/fromCache/1/mid/9469206211372/id/8177201777196/get/hls_9469206211372.VaRDHyXezr0.m3u8';
+
+        if (Hls.isSupported()) {
+            hls = new Hls({
+                lowLatencyMode: true,
+                maxBufferLength: 10,
+                maxMaxBufferLength: 20
+            });
+            hls.loadSource(videoSrc);
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                video.play().catch(err => console.log("Autoplay blocked:", err));
+            });
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = videoSrc;
+            video.addEventListener('loadedmetadata', function() {
+                video.play().catch(err => console.log("Autoplay blocked:", err));
+            });
         }
 
         window.onload = setPlayerSize;
         window.addEventListener('resize', setPlayerSize);
+        window.addEventListener('orientationchange', setPlayerSize);
     </script>
 </body>
 </html>
