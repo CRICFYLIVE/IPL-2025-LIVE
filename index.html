@@ -3,81 +3,89 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Live Stream</title>
+    <title>Live IPL Streaming</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <style>
         body {
+            text-align: center;
             background-color: black;
             color: white;
-            text-align: center;
-            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
         }
-        .popup {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #222;
-            padding: 20px;
-            border-radius: 10px;
-            box-shadow: 0 0 10px yellow;
-            display: none;
+        .container {
+            max-width: 800px;
+            width: 90%;
         }
-        .popup button {
+        h1 {
+            font-size: 24px;
+        }
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            aspect-ratio: 16 / 9;
+            background: black;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        video {
+            width: 100%;
+            height: 100%;
             display: block;
-            margin: 10px auto;
-            padding: 10px;
-            background: blue;
-            color: white;
-            border: none;
+        }
+        .play-btn {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             cursor: pointer;
         }
-        .stream-container {
-            margin-top: 50px;
-            border: 5px solid blue;
-            border-radius: 10px;
-            overflow: hidden;
-            display: inline-block;
-        }
-        iframe {
-            width: 600px;
-            height: 350px;
-        }
-        .join-btn {
-            margin-top: 20px;
-            padding: 10px 20px;
-            background: blue;
+        .play-btn::after {
+            content: '▶';
+            font-size: 36px;
             color: white;
-            border: none;
-            cursor: pointer;
-            border-radius: 5px;
         }
     </style>
 </head>
 <body>
-    <div id="popup" class="popup">
-        <h3>Support Us!</h3>
-        <p>Join our Telegram channel <b>Toxify</b> for more updates.</p>
-        <button onclick="joinNow()">Join Now</button>
-        <button onclick="closePopup()">Already Joined</button>
+    <div class="container">
+        <h1> IPL 2025 Live - Hindi</h1>
+        <marquee style="color: yellow; font-weight: bold;">Follow @cricfylive for latest updates!</marquee>
+        <div class="video-container">
+            <video id="videoPlayer" controls></video>
+            <div class="play-btn" id="playButton"></div>
+        </div>
     </div>
-    
+
     <script>
-        window.onload = function() {
-            document.getElementById('popup').style.display = 'block';
-        };
-        function closePopup() {
-            document.getElementById('popup').style.display = 'none';
+        const video = document.getElementById("videoPlayer");
+        const playButton = document.getElementById("playButton");
+
+        if (Hls.isSupported()) {
+            const hls = new Hls();
+            hls.loadSource("https://vkvsd250.okcdn.ru/cmaf/8177201777196/sig/j6X5gf0MwQc/srcIp/172.69.95.67/urls/45.136.22.65/expires/1743885970114/clientType/13/srcAg/CHROME/fromCache/1/mid/9469206211372/id/8177201777196/get/hls_9469206211372.VaRDHyXezr0.m3u8");
+            hls.attachMedia(video);
+            hls.on(Hls.Events.MANIFEST_PARSED, function() {
+                console.log("Stream loaded successfully.");
+            });
+        } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+            video.src = "https://vkvsd250.okcdn.ru/cmaf/8177201777196/sig/j6X5gf0MwQc/srcIp/172.69.95.67/urls/45.136.22.65/expires/1743885970114/clientType/13/srcAg/CHROME/fromCache/1/mid/9469206211372/id/8177201777196/get/hls_9469206211372.VaRDHyXezr0.m3u8";
         }
-        function joinNow() {
-            window.location.href = 'https://t.me/yourchannel';
-        }
+
+        playButton.addEventListener("click", function() {
+            video.play();
+            playButton.style.display = "none";
+        });
     </script>
-    
-    <h1>Toxify</h1>
-    <div class="stream-container">
-        <iframe src="https://www.example.com/yourstream" frameborder="0" allowfullscreen></iframe>
-    </div>
-    <br>
-    <button class="join-btn" onclick="joinNow()">Join Telegram</button>
 </body>
 </html>
