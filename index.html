@@ -5,17 +5,22 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IPL 2025 LIVE - HINDI</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Teko:wght@400;700&display=swap');
         body {
             background-color: black;
             color: white;
             text-align: center;
             font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
         .container {
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
+            padding: 20px;
         }
         .heading {
             font-family: 'Teko', sans-serif;
@@ -29,36 +34,41 @@
             font-style: italic;
             margin-bottom: 10px;
             animation: slide 8s linear infinite;
+            white-space: nowrap;
+            overflow: hidden;
+            padding: 0 10px;
         }
         @keyframes slide {
             from { transform: translateX(100%); }
             to { transform: translateX(-100%); }
         }
         .player {
-            width: 720px;
-            height: 480px;
+            width: 95%; /* Adjusted to take a bit more width */
+            max-width: 960px;
+            aspect-ratio: 16 / 9;
             background: #222;
             border: 5px solid blue;
             border-radius: 10px;
             position: relative;
+            margin-bottom: 10px;
         }
         .quality-box, .telegram-box {
+            font-family: 'Poppins', sans-serif;
             width: 100px;
             padding: 10px;
             text-align: center;
             border-radius: 5px;
             font-weight: bold;
             cursor: pointer;
+            margin-top: 10px;
         }
         .quality-box {
             background: white;
             color: black;
-            margin-top: 10px;
         }
         .telegram-box {
             background: blue;
             color: white;
-            margin-top: 10px;
             box-shadow: 0 0 10px blue;
         }
         .quality-list {
@@ -68,6 +78,14 @@
             padding: 5px;
             margin-top: 5px;
             border-radius: 5px;
+            font-family: 'Poppins', sans-serif;
+        }
+        .quality-list div {
+            padding: 5px 0;
+            cursor: pointer;
+        }
+        .quality-list div:hover {
+            background-color: #eee;
         }
     </style>
 </head>
@@ -84,7 +102,9 @@
             <div>720p</div>
             <div>1080p</div>
         </div>
-        <div class="telegram-box">Telegram</div>
+        <a href="https://t.me/cricfylive" target="_blank" style="text-decoration: none;">
+            <div class="telegram-box">Telegram</div>
+        </a>
     </div>
 
     <script>
@@ -92,6 +112,16 @@
             var list = document.getElementById("qualityList");
             list.style.display = (list.style.display === "block") ? "none" : "block";
         }
+
+        function setPlayerSize() {
+            const player = document.getElementById('videoPlayer');
+            const containerWidth = document.querySelector('.container').offsetWidth;
+            player.style.width = Math.min(containerWidth * 0.95, 960) + 'px'; // Increased to 95%
+            player.style.height = (player.offsetWidth * 9 / 16) + 'px';
+        }
+
+        window.onload = setPlayerSize;
+        window.addEventListener('resize', setPlayerSize);
     </script>
 </body>
 </html>
