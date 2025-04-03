@@ -18,22 +18,23 @@
         }
         .container {
             width: 100%;
+            max-width: 100%; /* Ensure container doesn't exceed screen */
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding: 10px;
+            padding: 5px; /* Reduced padding for smaller screens */
         }
         .heading {
             font-family: 'Teko', sans-serif;
-            font-size: clamp(24px, 8vw, 40px);
+            font-size: clamp(20px, 6vw, 40px); /* Slightly smaller for mobile */
             color: white;
-            margin-bottom: 8px;
+            margin: 5px 0; /* Reduced margin */
         }
         .slide-text {
-            font-size: clamp(14px, 4vw, 18px);
+            font-size: clamp(12px, 3.5vw, 18px); /* Adjusted for better fit */
             color: yellow;
             font-style: italic;
-            margin-bottom: 8px;
+            margin: 5px 0;
             animation: slide 10s linear infinite;
             white-space: nowrap;
             overflow: hidden;
@@ -44,14 +45,15 @@
             to { transform: translateX(-100%); }
         }
         .player {
-            width: 100vw;
-            max-width: 960px;
+            width: 100%; /* Full width of container */
+            max-width: 960px; /* Max cap for larger screens */
             aspect-ratio: 16 / 9;
             background: #222;
-            border: 3px solid blue;
-            border-radius: 8px;
-            margin-bottom: 10px;
+            border: 2px solid blue; /* Slightly thinner border */
+            border-radius: 5px;
+            margin: 5px 0; /* Reduced margin */
             overflow: hidden;
+            box-sizing: border-box;
         }
         .player video {
             width: 100%;
@@ -61,25 +63,25 @@
         }
         .quality-box, .telegram-box {
             font-family: 'Poppins', sans-serif;
-            padding: 8px;
+            padding: 6px; /* Slightly smaller padding */
             text-align: center;
             border-radius: 5px;
             font-weight: bold;
             cursor: pointer;
-            margin-top: 8px;
+            margin-top: 5px;
             user-select: none;
             -webkit-tap-highlight-color: transparent;
         }
         .quality-box {
-            width: 80px;
+            width: 70px; /* Smaller width */
             background: white;
             color: black;
         }
         .telegram-box {
-            width: 120px;
+            width: 100px; /* Smaller width */
             background: blue;
             color: white;
-            box-shadow: 0 0 8px blue;
+            box-shadow: 0 0 6px blue;
         }
         .quality-list {
             display: none;
@@ -90,23 +92,32 @@
             border-radius: 5px;
             font-family: 'Poppins', sans-serif;
             position: absolute;
-            width: 80px;
+            width: 70px;
             z-index: 10;
         }
         .quality-list div {
-            padding: 5px 0;
+            padding: 4px 0;
             cursor: pointer;
-            font-size: 14px;
+            font-size: 12px; /* Smaller font for mobile */
         }
         .quality-list div:hover {
             background-color: #eee;
         }
         @media (max-width: 600px) {
-            .container { padding: 5px; }
-            .player { border-radius: 5px; }
-            .quality-box { width: 70px; padding: 6px; }
-            .telegram-box { width: 100px; padding: 6px; }
-            .quality-list { width: 70px; }
+            .container { 
+                padding: 3px; /* Even less padding for small screens */
+            }
+            .player { 
+                width: 100%;
+                max-width: 100%; /* No overflow on small screens */
+                border-radius: 4px;
+                border-width: 1px; /* Thinner border for mobile */
+            }
+            .heading { margin: 3px 0; }
+            .slide-text { margin: 3px 0; }
+            .quality-box { width: 60px; padding: 5px; }
+            .telegram-box { width: 90px; padding: 5px; }
+            .quality-list { width: 60px; }
         }
     </style>
 </head>
@@ -150,13 +161,6 @@
             qualityList.style.display = "none";
         }
 
-        function setPlayerSize() {
-            const player = document.getElementById('videoPlayer');
-            const width = Math.min(window.innerWidth, 960);
-            player.style.width = width + 'px';
-            player.style.height = (width * 9 / 16) + 'px';
-        }
-
         const video = document.getElementById('liveVideo');
         const primarySrc = 'https://vkvsd250.okcdn.ru/cmaf/8177201777196/sig/j6X5gf0MwQc/srcIp/172.69.95.67/urls/45.136.22.65/expires/1743885970114/clientType/13/srcAg/CHROME/fromCache/1/mid/9469206211372/id/8177201777196/get/hls_9469206211372.VaRDHyXezr0.m3u8';
         const backupSrc = 'https://ee4ee8c03a26.eu-central-1.playback.live-video.net/api/video/v1/eu-central-1.755921704393.channel.LOohfipmCQDP.m3u8';
@@ -178,8 +182,8 @@
                         console.log("Primary stream failed:", data);
                         if (source === primarySrc) {
                             console.log("Switching to backup stream...");
-                            hls.destroy(); // Clean up the failed instance
-                            loadStream(backupSrc); // Load backup stream
+                            hls.destroy();
+                            loadStream(backupSrc);
                         } else {
                             console.log("Backup stream also failed.");
                         }
@@ -201,10 +205,6 @@
 
         // Start with the primary stream
         loadStream(primarySrc);
-
-        window.onload = setPlayerSize;
-        window.addEventListener('resize', setPlayerSize);
-        window.addEventListener('orientationchange', setPlayerSize);
     </script>
 </body>
 </html>
