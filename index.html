@@ -245,23 +245,52 @@
 
         // Popup Functions
         function showPopup() {
+            // Check if user has already joined in this session
+            if (sessionStorage.getItem('hasJoined') === 'true') {
+                console.log("User has already joined, skipping popup");
+                playVideo(); // Play video directly if user has already joined
+                return;
+            }
             const popup = document.getElementById("joinPopup");
             popup.style.display = "block";
+            console.log("Popup shown");
         }
 
         function closePopup() {
             const popup = document.getElementById("joinPopup");
-            popup.style.display = "none";
+            popup.style.display = "none"; // Close the popup
+            console.log("Popup closed");
+
+            // Set flag in sessionStorage to indicate user has joined
+            sessionStorage.setItem('hasJoined', 'true');
+            console.log("hasJoined flag set to true");
+
+            playVideo(); // Play the video after closing popup
+        }
+
+        function playVideo() {
             const video = document.getElementById('liveVideo');
-            video.muted = true;
+            video.muted = true; // Ensure video is muted to bypass autoplay restrictions
             const playPromise = video.play();
             if (playPromise !== undefined) {
-                playPromise.catch(err => {
-                    console.log("Play error:", err);
-                    setTimeout(() => {
-                        video.play().catch(err => console.log("Retry play error:", err));
-                    }, 500);
-                });
+                playPromise
+                    .then(() => {
+                        console.log("Video started playing successfully");
+                    })
+                    .catch(err => {
+                        console.log("Play error:", err);
+                        // Fallback: Retry after a short delay
+                        setTimeout(() => {
+                            video.play()
+                                .then(() => {
+                                    console.log("Video started playing on retry");
+                                })
+                                .catch(err => {
+                                    console.log("Retry play error:", err);
+                                    alert("Please click the play button to start the video.");
+                                });
+                        }, 500);
+                    });
             }
         }
 
@@ -283,19 +312,17 @@
                 hls.loadSource(source);
                 hls.attachMedia(video);
                 hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                    // Don't auto-play here, wait for user interaction
+                    console.log("Stream manifest parsed");
                 });
                 hls.on(Hls.Events.ERROR, function(event, data) {
                     if (data.fatal) {
                         console.log("Stream failed:", data);
-                        // No fallback to backup stream, just log the error
                     }
                 });
             } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                 video.src = source;
                 video.addEventListener('error', function() {
                     console.log("Stream failed.");
-                    // No fallback to backup stream, just log the error
                 });
             }
         }
