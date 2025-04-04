@@ -279,17 +279,7 @@
                     })
                     .catch(err => {
                         console.log("Play error:", err);
-                        // Fallback: Retry after a short delay
-                        setTimeout(() => {
-                            video.play()
-                                .then(() => {
-                                    console.log("Video started playing on retry");
-                                })
-                                .catch(err => {
-                                    console.log("Retry play error:", err);
-                                    // Removed the alert here
-                                });
-                        }, 500);
+                        // No retry or alert, just log the error
                     });
             }
         }
