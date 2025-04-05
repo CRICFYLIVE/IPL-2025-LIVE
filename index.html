@@ -6,224 +6,119 @@
   <title>IPL 2025 LIVE - HINDI</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Teko:wght@400;700&display=swap');
-
     body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background-color: black;
+      background: #000;
       color: white;
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      padding: 0;
       text-align: center;
     }
-
     .heading {
       font-family: 'Teko', sans-serif;
-      font-size: clamp(24px, 5vw, 40px);
+      font-size: 2rem;
+      color: white;
       margin-top: 10px;
     }
-
     .slide-text {
       font-style: italic;
       color: yellow;
-      font-size: clamp(12px, 3vw, 18px);
-      margin-bottom: 10px;
-      animation: slide 15s linear infinite;
+      animation: slide 10s linear infinite;
       white-space: nowrap;
       overflow: hidden;
     }
-
     @keyframes slide {
-      from { transform: translateX(100%); }
-      to { transform: translateX(-100%); }
+      0% { transform: translateX(100%); }
+      100% { transform: translateX(-100%); }
     }
-
-    .player-wrapper {
-      position: relative;
-      width: 100%;
+    .player {
       max-width: 960px;
-      margin: 0 auto;
-      aspect-ratio: 16 / 9;
+      aspect-ratio: 16/9;
+      margin: 10px auto;
       border: 2px solid blue;
-      border-radius: 5px;
-      background-color: #222;
+      border-radius: 6px;
       overflow: hidden;
+      position: relative;
     }
-
-    video {
+    iframe {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      border: none;
     }
-
     .quality-box, .telegram-box {
-      margin: 10px auto 5px;
-      padding: 6px;
-      border-radius: 5px;
+      margin: 6px auto;
+      padding: 8px 12px;
+      border-radius: 6px;
       font-weight: bold;
       cursor: pointer;
-      user-select: none;
-      width: fit-content;
+      width: 70px;
     }
-
     .quality-box {
-      background-color: white;
-      color: black;
-    }
-
-    .telegram-box {
-      background-color: blue;
-      color: white;
-      box-shadow: 0 0 6px blue;
-    }
-
-    .quality-list {
-      display: none;
       background: white;
       color: black;
-      margin: 0 auto 10px;
-      padding: 6px;
-      border-radius: 5px;
+    }
+    .telegram-box {
+      background: blue;
+      color: white;
+      width: 90px;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .quality-list {
+      background: white;
+      color: black;
       width: 80px;
-    }
-
-    .quality-list div {
-      padding: 5px 0;
-      cursor: pointer;
-    }
-
-    /* Popup */
-    .popup {
+      margin: 6px auto;
+      border-radius: 6px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
       display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #1a2526;
-      border: 2px solid #ffd700;
-      padding: 20px;
-      border-radius: 10px;
-      width: 80%;
-      max-width: 300px;
-      z-index: 1000;
     }
-
-    .popup h3 {
-      color: #00b7eb;
-      margin-bottom: 10px;
-    }
-
-    .popup p {
-      color: white;
-      margin-bottom: 15px;
-    }
-
-    .popup button {
-      width: 100%;
-      padding: 10px;
-      margin: 5px 0;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-      font-size: 16px;
+    .quality-list div {
+      padding: 6px 0;
+      border-bottom: 1px solid #ccc;
       cursor: pointer;
     }
-
-    .join-now {
-      background: #00b7eb;
-      color: white;
+    .quality-list div:last-child {
+      border-bottom: none;
     }
-
-    .already-joined {
-      background: #333;
-      color: white;
+    .quality-list div:hover {
+      background: #f0f0f0;
     }
   </style>
 </head>
 <body>
+
   <div class="heading">IPL 2025 LIVE - HINDI</div>
   <div class="slide-text">Join @cricfylive for latest updates</div>
 
-  <div class="player-wrapper" id="videoPlayer">
-    <video id="liveVideo" controls playsinline muted></video>
+  <div class="player">
+    <iframe src="https://webplayer-live.pages.dev?url=https://prod-ent-live-gm.jiocinema.com/bpk-tv/JS_M1_IPL25_HIN_IDC_MOB/Fallback/index.m3u8" allowfullscreen></iframe>
   </div>
 
-  <div class="quality-box" onclick="toggleQualityList()">Quality</div>
+  <div class="quality-box" onclick="toggleQualityList()">Auto</div>
   <div class="quality-list" id="qualityList">
-    <div onclick="changeQuality(-1)">Auto</div>
-    <div onclick="changeQuality(0)">240p</div>
-    <div onclick="changeQuality(1)">360p</div>
-    <div onclick="changeQuality(2)">480p</div>
-    <div onclick="changeQuality(3)">720p</div>
-    <div onclick="changeQuality(4)">1080p</div>
+    <div onclick="setQuality('Auto')">Auto</div>
+    <div onclick="setQuality('240p')">240p</div>
+    <div onclick="setQuality('360p')">360p</div>
+    <div onclick="setQuality('480p')">480p</div>
+    <div onclick="setQuality('720p')">720p</div>
+    <div onclick="setQuality('1080p')">1080p</div>
   </div>
 
-  <a href="https://t.me/cricfylive" target="_blank" style="text-decoration: none;">
-    <div class="telegram-box">Join Telegram</div>
-  </a>
+  <a href="https://t.me/cricfylive" target="_blank" class="telegram-box">Telegram</a>
 
-  <!-- Telegram Popup -->
-  <div class="popup" id="joinPopup">
-    <h3>Support Us!</h3>
-    <p>Join our Telegram channel CRICFyLive for more updates.</p>
-    <button class="join-now" onclick="joinNow()">Join Now</button>
-    <button class="already-joined" onclick="closePopup()">Already Joined</button>
-  </div>
-
-  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
   <script>
-    let hls;
-    const video = document.getElementById('liveVideo');
-    const m3u8Link = 'https://prod-ent-live-gm.jiocinema.com/bpk-tv/JS_M1_IPL25_HIN_IDC_MOB/Fallback/index.m3u8';
-
-    function loadStream(source) {
-      if (Hls.isSupported()) {
-        hls = new Hls();
-        hls.loadSource(source);
-        hls.attachMedia(video);
-      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-        video.src = source;
-      }
-    }
-
     function toggleQualityList() {
-      const list = document.getElementById("qualityList");
-      list.style.display = list.style.display === "block" ? "none" : "block";
+      const list = document.getElementById('qualityList');
+      list.style.display = (list.style.display === 'block') ? 'none' : 'block';
     }
 
-    function changeQuality(level) {
-      if (hls) hls.currentLevel = level;
-      document.getElementById("qualityList").style.display = "none";
+    function setQuality(label) {
+      document.querySelector('.quality-box').textContent = label;
+      document.getElementById('qualityList').style.display = 'none';
+      // NOTE: This does not change iframe stream quality. Add direct HLS for advanced control.
     }
-
-    function showPopup() {
-      if (sessionStorage.getItem("joined") === "true") {
-        playStream();
-        return;
-      }
-      document.getElementById("joinPopup").style.display = "block";
-    }
-
-    function closePopup() {
-      document.getElementById("joinPopup").style.display = "none";
-      sessionStorage.setItem("joined", "true");
-      playStream();
-    }
-
-    function joinNow() {
-      window.open("https://t.me/cricfylive", "_blank");
-      closePopup();
-    }
-
-    function playStream() {
-      video.play();
-    }
-
-    video.addEventListener('play', function (e) {
-      e.preventDefault();
-      video.pause();
-      showPopup();
-    });
-
-    loadStream(m3u8Link);
   </script>
+
 </body>
 </html>
