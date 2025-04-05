@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>IPL 2025 LIVE - HINDI</title>
+  <title>IPL 2025 LIVE - CRICFYLIVE</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Teko:wght@400;700&display=swap');
     body {
@@ -45,78 +45,93 @@
       height: 100%;
       border: none;
     }
-    .quality-box, .telegram-box {
-      margin: 6px auto;
-      padding: 8px 12px;
-      border-radius: 6px;
+    .language-box, .language-list {
+      font-family: 'Poppins', sans-serif;
       font-weight: bold;
-      cursor: pointer;
-      width: 70px;
+      margin-top: 5px;
+      user-select: none;
     }
-    .quality-box {
+    .language-box {
+      width: 100px;
       background: white;
       color: black;
+      padding: 6px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 0 auto;
+    }
+    .language-list {
+      display: none;
+      background: white;
+      color: black;
+      padding: 8px 0;
+      margin: 5px auto;
+      width: 100px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    }
+    .language-list div {
+      padding: 6px 0;
+      cursor: pointer;
+      border-bottom: 1px solid #ccc;
+      transition: background 0.3s ease;
+    }
+    .language-list div:last-child {
+      border-bottom: none;
+    }
+    .language-list div:hover {
+      background: #eee;
     }
     .telegram-box {
       background: blue;
       color: white;
-      width: 90px;
+      width: 100px;
+      margin: 10px auto;
+      padding: 10px;
+      border-radius: 6px;
+      font-weight: bold;
       text-decoration: none;
       display: inline-block;
-    }
-    .quality-list {
-      background: white;
-      color: black;
-      width: 80px;
-      margin: 6px auto;
-      border-radius: 6px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-      display: none;
-    }
-    .quality-list div {
-      padding: 6px 0;
-      border-bottom: 1px solid #ccc;
-      cursor: pointer;
-    }
-    .quality-list div:last-child {
-      border-bottom: none;
-    }
-    .quality-list div:hover {
-      background: #f0f0f0;
     }
   </style>
 </head>
 <body>
 
-  <div class="heading">IPL 2025 LIVE - HINDI</div>
+  <div class="heading">IPL 2025 LIVE - CRICFYLIVE</div>
   <div class="slide-text">Join @cricfylive for latest updates</div>
 
   <div class="player">
-    <iframe src="https://webplayer-live.pages.dev?url=https://prod-ent-live-gm.jiocinema.com/bpk-tv/JS_M1_IPL25_HIN_IDC_MOB/Fallback/index.m3u8" allowfullscreen></iframe>
+    <iframe id="streamFrame" src="https://webplayer-live.pages.dev?url=https://prod-ent-live-gm.jiocinema.com/bpk-tv/JS_M1_IPL25_HIN_IDC_MOB/Fallback/index.m3u8" allowfullscreen></iframe>
   </div>
 
-  <div class="quality-box" onclick="toggleQualityList()">Auto</div>
-  <div class="quality-list" id="qualityList">
-    <div onclick="setQuality('Auto')">Auto</div>
-    <div onclick="setQuality('240p')">240p</div>
-    <div onclick="setQuality('360p')">360p</div>
-    <div onclick="setQuality('480p')">480p</div>
-    <div onclick="setQuality('720p')">720p</div>
-    <div onclick="setQuality('1080p')">1080p</div>
+  <div class="language-box" onclick="toggleLanguageList()">Hindi</div>
+  <div class="language-list" id="languageList">
+    <div onclick="changeLanguage('Hindi')">Hindi</div>
+    <div onclick="changeLanguage('English')">English</div>
   </div>
 
   <a href="https://t.me/cricfylive" target="_blank" class="telegram-box">Telegram</a>
 
   <script>
-    function toggleQualityList() {
-      const list = document.getElementById('qualityList');
-      list.style.display = (list.style.display === 'block') ? 'none' : 'block';
+    function toggleLanguageList() {
+      const list = document.getElementById('languageList');
+      list.style.display = list.style.display === 'block' ? 'none' : 'block';
     }
 
-    function setQuality(label) {
-      document.querySelector('.quality-box').textContent = label;
-      document.getElementById('qualityList').style.display = 'none';
-      // NOTE: This does not change iframe stream quality. Add direct HLS for advanced control.
+    function changeLanguage(lang) {
+      const box = document.querySelector('.language-box');
+      const list = document.getElementById('languageList');
+      const frame = document.getElementById('streamFrame');
+
+      box.textContent = lang;
+      list.style.display = 'none';
+
+      if (lang === 'Hindi') {
+        frame.src = "https://webplayer-live.pages.dev?url=https://prod-ent-live-gm.jiocinema.com/bpk-tv/JS_M1_IPL25_HIN_IDC_MOB/Fallback/index.m3u8";
+      } else if (lang === 'English') {
+        frame.src = "https://webplayer-live.pages.dev?url=https://prod-ent-live-gm.jiocinema.com/bpk-tv/JS_M1_IPL25_ENG_IDC_MOB/Fallback/index.m3u8";
+      }
     }
   </script>
 
