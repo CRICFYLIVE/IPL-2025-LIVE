@@ -1,331 +1,229 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>IPL 2025 LIVE - HINDI</title>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Teko:wght@400;700&display=swap');
-        body {
-            background-color: black;
-            color: white;
-            text-align: center;
-            font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            overflow-x: hidden;
-        }
-        .container {
-            width: 100%;
-            max-width: 100%;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 5px;
-        }
-        .heading {
-            font-family: 'Teko', sans-serif;
-            font-size: clamp(20px, 6vw, 40px);
-            color: white;
-            margin: 5px 0;
-        }
-        .slide-text {
-            font-size: clamp(12px, 3.5vw, 18px);
-            color: yellow;
-            font-style: italic;
-            margin: 5px 0;
-            animation: slide 10s linear infinite;
-            white-space: nowrap;
-            overflow: hidden;
-            padding: 0 5px;
-        }
-        @keyframes slide {
-            from { transform: translateX(100%); }
-            to { transform: translateX(-100%); }
-        }
-        .player {
-            width: 100%;
-            max-width: 960px;
-            aspect-ratio: 16 / 9;
-            background: #222;
-            border: 2px solid blue;
-            border-radius: 5px;
-            margin: 5px 0;
-            overflow: hidden;
-            box-sizing: border-box;
-            position: relative;
-        }
-        .player video {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-        .quality-box, .telegram-box {
-            font-family: 'Poppins', sans-serif;
-            padding: 6px;
-            text-align: center;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
-            margin-top: 5px;
-            user-select: none;
-            -webkit-tap-highlight-color: transparent;
-        }
-        .quality-box {
-            width: 70px;
-            background: white;
-            color: black;
-            transition: background 0.3s ease;
-        }
-        .quality-box:hover {
-            background: #e0e0e0;
-        }
-        .telegram-box {
-            width: 100px;
-            background: blue;
-            color: white;
-            box-shadow: 0 0 6px blue;
-        }
-        .quality-list {
-            display: none;
-            background: white;
-            color: black;
-            padding: 8px;
-            margin-top: 5px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-            font-family: 'Poppins', sans-serif;
-            position: absolute;
-            width: 80px;
-            z-index: 10;
-        }
-        .quality-list div {
-            padding: 8px 0;
-            cursor: pointer;
-            font-size: 14px;
-            border-radius: 4px;
-            transition: background 0.3s ease, transform 0.1s ease;
-            border-bottom: 1px solid #ccc;
-        }
-        .quality-list div:last-child {
-            border-bottom: none;
-        }
-        .quality-list div:hover {
-            background: #f0f0f0;
-            transform: scale(1.05);
-        }
-        /* Popup Styles */
-        .popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: #1a2526;
-            padding: 20px;
-            border-radius: 10px;
-            border: 2px solid #ffd700;
-            box-shadow: 0 0 15px #ffd700;
-            z-index: 100;
-            text-align: center;
-            width: 80%;
-            max-width: 300px;
-        }
-        .popup h3 {
-            color: #00b7eb;
-            font-family: 'Poppins', sans-serif;
-            font-size: 24px;
-            font-weight: 700;
-            margin: 0 0 10px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        .popup p {
-            color: white;
-            font-family: 'Poppins', sans-serif;
-            font-size: 14px;
-            margin: 0 0 15px;
-        }
-        .popup button {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            border: none;
-            border-radius: 5px;
-            font-family: 'Poppins', sans-serif;
-            font-weight: bold;
-            font-size: 16px;
-            cursor: pointer;
-        }
-        .popup .join-now {
-            background: #00b7eb;
-            color: white;
-        }
-        .popup .already-joined {
-            background: #3a4445;
-            color: white;
-        }
-        @media (max-width: 600px) {
-            .container { padding: 3px; }
-            .player { 
-                width: 100%;
-                max-width: 100%;
-                border-radius: 4px;
-                border-width: 1px;
-            }
-            .heading { margin: 3px 0; }
-            .slide-text { margin: 3px 0; }
-            .quality-box { width: 60px; padding: 5px; }
-            .telegram-box { width: 90px; padding: 5px; }
-            .quality-list { 
-                width: 70px; 
-                padding: 6px;
-            }
-            .quality-list div { 
-                font-size: 12px; 
-                padding: 6px 0; 
-            }
-            .popup { width: 90%; }
-            .popup h3 { font-size: 20px; }
-            .popup p { font-size: 12px; }
-            .popup button { font-size: 14px; padding: 8px; }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IPL 2025 LIVE - HINDI</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Teko:wght@400;700&display=swap');
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: black;
+      color: white;
+      text-align: center;
+    }
+
+    .heading {
+      font-family: 'Teko', sans-serif;
+      font-size: clamp(24px, 5vw, 40px);
+      margin-top: 10px;
+    }
+
+    .slide-text {
+      font-style: italic;
+      color: yellow;
+      font-size: clamp(12px, 3vw, 18px);
+      margin-bottom: 10px;
+      animation: slide 15s linear infinite;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+
+    @keyframes slide {
+      from { transform: translateX(100%); }
+      to { transform: translateX(-100%); }
+    }
+
+    .player-wrapper {
+      position: relative;
+      width: 100%;
+      max-width: 960px;
+      margin: 0 auto;
+      aspect-ratio: 16 / 9;
+      border: 2px solid blue;
+      border-radius: 5px;
+      background-color: #222;
+      overflow: hidden;
+    }
+
+    video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .quality-box, .telegram-box {
+      margin: 10px auto 5px;
+      padding: 6px;
+      border-radius: 5px;
+      font-weight: bold;
+      cursor: pointer;
+      user-select: none;
+      width: fit-content;
+    }
+
+    .quality-box {
+      background-color: white;
+      color: black;
+    }
+
+    .telegram-box {
+      background-color: blue;
+      color: white;
+      box-shadow: 0 0 6px blue;
+    }
+
+    .quality-list {
+      display: none;
+      background: white;
+      color: black;
+      margin: 0 auto 10px;
+      padding: 6px;
+      border-radius: 5px;
+      width: 80px;
+    }
+
+    .quality-list div {
+      padding: 5px 0;
+      cursor: pointer;
+    }
+
+    /* Popup */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #1a2526;
+      border: 2px solid #ffd700;
+      padding: 20px;
+      border-radius: 10px;
+      width: 80%;
+      max-width: 300px;
+      z-index: 1000;
+    }
+
+    .popup h3 {
+      color: #00b7eb;
+      margin-bottom: 10px;
+    }
+
+    .popup p {
+      color: white;
+      margin-bottom: 15px;
+    }
+
+    .popup button {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .join-now {
+      background: #00b7eb;
+      color: white;
+    }
+
+    .already-joined {
+      background: #333;
+      color: white;
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <div class="heading">IPL 2025 LIVE - HINDI</div>
-        <div class="slide-text">Join @cricfylive for latest updates</div>
-        <div class="player" id="videoPlayer">
-            <video id="liveVideo" controls muted playsinline></video>
-        </div>
-        <div class="quality-box" id="qualityBox" onclick="toggleQualityList()">Auto</div>
-        <div class="quality-list" id="qualityList">
-            <div onclick="changeQuality(-1)">Auto</div>
-            <div onclick="changeQuality(0)">240p</div>
-            <div onclick="changeQuality(1)">360p</div>
-            <div onclick="changeQuality(2)">480p</div>
-            <div onclick="changeQuality(3)">720p</div>
-            <div onclick="changeQuality(4)">1080p</div>
-        </div>
-        <a href="https://t.me/cricfylive" target="_blank" style="text-decoration: none;">
-            <div class="telegram-box">Telegram</div>
-        </a>
-    </div>
+  <div class="heading">IPL 2025 LIVE - HINDI</div>
+  <div class="slide-text">Join @cricfylive for latest updates</div>
 
-    <!-- Popup HTML -->
-    <div class="popup" id="joinPopup">
-        <h3>Support Us!</h3>
-        <p>Join our Telegram channel CRICFyLive for more updates.</p>
-        <button class="join-now" onclick="joinNow()">Join Now</button>
-        <button class="already-joined" onclick="closePopup()">Already Joined</button>
-    </div>
+  <div class="player-wrapper" id="videoPlayer">
+    <video id="liveVideo" controls playsinline muted></video>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-    <script>
-        let hls;
+  <div class="quality-box" onclick="toggleQualityList()">Quality</div>
+  <div class="quality-list" id="qualityList">
+    <div onclick="changeQuality(-1)">Auto</div>
+    <div onclick="changeQuality(0)">240p</div>
+    <div onclick="changeQuality(1)">360p</div>
+    <div onclick="changeQuality(2)">480p</div>
+    <div onclick="changeQuality(3)">720p</div>
+    <div onclick="changeQuality(4)">1080p</div>
+  </div>
 
-        function toggleQualityList() {
-            const list = document.getElementById("qualityList");
-            list.style.display = (list.style.display === "block") ? "none" : "block";
-        }
+  <a href="https://t.me/cricfylive" target="_blank" style="text-decoration: none;">
+    <div class="telegram-box">Join Telegram</div>
+  </a>
 
-        function changeQuality(levelIndex) {
-            const qualityBox = document.getElementById("qualityBox");
-            const qualityList = document.getElementById("qualityList");
-            if (hls) {
-                hls.currentLevel = levelIndex;
-                qualityBox.textContent = levelIndex === -1 ? "Auto" : qualityList.children[levelIndex + 1].textContent;
-            }
-            qualityList.style.display = "none";
-        }
+  <!-- Telegram Popup -->
+  <div class="popup" id="joinPopup">
+    <h3>Support Us!</h3>
+    <p>Join our Telegram channel CRICFyLive for more updates.</p>
+    <button class="join-now" onclick="joinNow()">Join Now</button>
+    <button class="already-joined" onclick="closePopup()">Already Joined</button>
+  </div>
 
-        // Popup Functions
-        function showPopup() {
-            // Check if user has already joined in this session
-            if (sessionStorage.getItem('hasJoined') === 'true') {
-                console.log("User has already joined, skipping popup");
-                playVideo(); // Play video directly if user has already joined
-                return;
-            }
-            const popup = document.getElementById("joinPopup");
-            popup.style.display = "block";
-            console.log("Popup shown");
-        }
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+  <script>
+    let hls;
+    const video = document.getElementById('liveVideo');
+    const m3u8Link = 'https://prod-ent-live-gm.jiocinema.com/bpk-tv/JS_M1_IPL25_HIN_IDC_MOB/Fallback/index.m3u8';
 
-        function closePopup() {
-            const popup = document.getElementById("joinPopup");
-            popup.style.display = "none"; // Close the popup
-            console.log("Popup closed");
+    function loadStream(source) {
+      if (Hls.isSupported()) {
+        hls = new Hls();
+        hls.loadSource(source);
+        hls.attachMedia(video);
+      } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = source;
+      }
+    }
 
-            // Set flag in sessionStorage to indicate user has joined
-            sessionStorage.setItem('hasJoined', 'true');
-            console.log("hasJoined flag set to true");
+    function toggleQualityList() {
+      const list = document.getElementById("qualityList");
+      list.style.display = list.style.display === "block" ? "none" : "block";
+    }
 
-            playVideo(); // Play the video after closing popup
-        }
+    function changeQuality(level) {
+      if (hls) hls.currentLevel = level;
+      document.getElementById("qualityList").style.display = "none";
+    }
 
-        function playVideo() {
-            const video = document.getElementById('liveVideo');
-            video.muted = true; // Ensure video is muted to bypass autoplay restrictions
-            const playPromise = video.play();
-            if (playPromise !== undefined) {
-                playPromise
-                    .then(() => {
-                        console.log("Video started playing successfully");
-                    })
-                    .catch(err => {
-                        console.log("Play error:", err);
-                        // No retry or alert, just log the error
-                    });
-            }
-        }
+    function showPopup() {
+      if (sessionStorage.getItem("joined") === "true") {
+        playStream();
+        return;
+      }
+      document.getElementById("joinPopup").style.display = "block";
+    }
 
-        function joinNow() {
-            window.open("https://t.me/cricfylive", "_blank");
-            closePopup();
-        }
+    function closePopup() {
+      document.getElementById("joinPopup").style.display = "none";
+      sessionStorage.setItem("joined", "true");
+      playStream();
+    }
 
-        const video = document.getElementById('liveVideo');
-        const primarySrc = 'https://prod-ent-live-gm.jiocinema.com/bpk-tv/JS_M1_IPL25_HIN_IDC_MOB/Fallback/index.m3u8';
+    function joinNow() {
+      window.open("https://t.me/cricfylive", "_blank");
+      closePopup();
+    }
 
-        function loadStream(source) {
-            if (Hls.isSupported()) {
-                hls = new Hls({
-                    lowLatencyMode: true,
-                    maxBufferLength: 10,
-                    maxMaxBufferLength: 20
-                });
-                hls.loadSource(source);
-                hls.attachMedia(video);
-                hls.on(Hls.Events.MANIFEST_PARSED, function() {
-                    console.log("Stream manifest parsed");
-                });
-                hls.on(Hls.Events.ERROR, function(event, data) {
-                    if (data.fatal) {
-                        console.log("Stream failed:", data);
-                    }
-                });
-            } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = source;
-                video.addEventListener('error', function() {
-                    console.log("Stream failed.");
-                });
-            }
-        }
+    function playStream() {
+      video.play();
+    }
 
-        // Start with the primary stream
-        loadStream(primarySrc);
+    video.addEventListener('play', function (e) {
+      e.preventDefault();
+      video.pause();
+      showPopup();
+    });
 
-        // Show popup on play button click
-        video.addEventListener('play', function(event) {
-            event.preventDefault();
-            video.pause();
-            showPopup();
-        });
-    </script>
+    loadStream(m3u8Link);
+  </script>
 </body>
 </html>
