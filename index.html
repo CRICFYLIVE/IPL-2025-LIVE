@@ -16,7 +16,7 @@
     }
     .heading {
       font-family: 'Teko', sans-serif;
-      font-size: clamp(24px, 6vw, 40px);
+      font-size: clamp(36px, 9vw, 54px);
       margin: 10px 0 5px;
       color: white;
     }
@@ -24,7 +24,8 @@
       color: yellow;
       font-size: clamp(12px, 3.5vw, 18px);
       font-style: italic;
-      margin-bottom: 10px;
+      font-weight: bold;
+      margin: 5px 0 10px;
       animation: slide 12s linear infinite;
       white-space: nowrap;
       overflow: hidden;
@@ -43,7 +44,6 @@
       width: 100%;
       aspect-ratio: 16 / 9;
       background: #111;
-      border: 2px solid blue;
       border-radius: 6px;
       overflow: hidden;
     }
@@ -52,12 +52,25 @@
       height: 100%;
       border: none;
     }
+    #liveBadge {
+      position: absolute;
+      top: 4px;
+      left: 4px;
+      background: red;
+      color: white;
+      font-size: 8px;
+      font-weight: bold;
+      padding: 1px 3px;
+      border-radius: 2px;
+      z-index: 10;
+    }
     .language-box, .telegram-box {
       display: inline-block;
-      margin: 8px 5px;
-      padding: 8px 12px;
-      border-radius: 5px;
+      margin: 5px 3px;
+      padding: 5px 8px;
+      border-radius: 4px;
       font-weight: bold;
+      font-size: 12px;
       cursor: pointer;
       user-select: none;
       transition: 0.3s;
@@ -67,11 +80,10 @@
       color: black;
     }
     .telegram-box {
-      background: blue;
-      color: white;
-      box-shadow: 0 0 6px blue;
+      background: #00b7eb;
+      color: black;
+      box-shadow: none;
     }
-    /* Popup styles */
     .popup {
       display: none;
       position: fixed;
@@ -79,33 +91,33 @@
       left: 50%;
       transform: translate(-50%, -50%);
       background: #1a2526;
-      padding: 20px;
+      padding: 10px;
       border-radius: 10px;
-      border: 2px solid #ffd700;
-      box-shadow: 0 0 15px #ffd700;
+      border: 2px solid #00b7eb;
+      box-shadow: 0 0 8px #87ceeb;
       z-index: 100;
       text-align: center;
-      width: 80%;
-      max-width: 300px;
+      width: 60%;
+      max-width: 160px;
     }
     .popup h3 {
       color: #00b7eb;
-      font-size: 22px;
-      margin-bottom: 10px;
+      font-size: 16px;
+      margin-bottom: 6px;
     }
     .popup p {
       color: white;
-      font-size: 14px;
-      margin-bottom: 15px;
+      font-size: 12px;
+      margin-bottom: 10px;
     }
     .popup button {
       width: 100%;
-      padding: 10px;
-      margin: 5px 0;
+      padding: 6px;
+      margin: 4px 0;
       border: none;
       border-radius: 5px;
       font-weight: bold;
-      font-size: 16px;
+      font-size: 12px;
       cursor: pointer;
     }
     .popup .join-now {
@@ -123,16 +135,18 @@
     <div class="heading">IPL 2025 LIVE - CRICFYLIVE</div>
     <div class="slide-text">Join @cricfylive for latest updates</div>
     <div class="player" id="playerBox">
-      <iframe id="playerFrame" src="" allowfullscreen></iframe>
+      <div id="liveBadge">LIVE: 0</div>
+      <iframe id="playerFrame" allowfullscreen></iframe>
     </div>
-    <div class="language-box" onclick="switchLang('hindi')">Hindi</div>
-    <div class="language-box" onclick="switchLang('english')">English</div>
+    <div style="margin-top: 10px">
+      <div class="language-box" onclick="switchLang('hindi')">Hindi</div>
+      <div class="language-box" onclick="switchLang('english')">English</div>
+    </div>
     <a href="https://t.me/cricfylive" target="_blank">
-      <div class="telegram-box">Telegram</div>
+      <div class="telegram-box">Join Telegram</div>
     </a>
   </div>
 
-  <!-- Popup -->
   <div class="popup" id="joinPopup">
     <h3>Support Us!</h3>
     <p>Join our Telegram channel CRICFyLive for more updates.</p>
@@ -140,19 +154,16 @@
     <button class="already-joined" onclick="closePopup()">Already Joined</button>
   </div>
 
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
   <script>
     const hindiURL = 'https://webplayer-live.pages.dev?url=https://vkvsd250.okcdn.ru/cmaf/8177201777196/sig/j6X5gf0MwQc/srcIp/172.69.95.67/urls/45.136.22.65/expires/1743885970114/clientType/13/srcAg/CHROME/fromCache/1/mid/9469206211372/id/8177201777196/get/hls_9469206211372.VaRDHyXezr0.m3u8';
     const englishURL = 'https://webplayer-live.pages.dev?url=https://prod-ent-live-gm.jiocinema.com/bpk-tv/JS_M1_IPL25_ENG_IDC_MOB/Fallback/index.m3u8';
-
     const playerFrame = document.getElementById('playerFrame');
 
     function switchLang(lang) {
-      if (sessionStorage.getItem('hasJoined') === 'true') {
-        playerFrame.src = (lang === 'hindi') ? hindiURL : englishURL;
-      } else {
-        sessionStorage.setItem('preferredLang', lang);
-        showPopup();
-      }
+      playerFrame.src = (lang === 'hindi') ? hindiURL : englishURL;
     }
 
     function showPopup() {
@@ -162,8 +173,6 @@
     function closePopup() {
       document.getElementById("joinPopup").style.display = "none";
       sessionStorage.setItem('hasJoined', 'true');
-      const lang = sessionStorage.getItem('preferredLang') || 'hindi';
-      switchLang(lang);
     }
 
     function joinNow() {
@@ -171,12 +180,42 @@
       closePopup();
     }
 
-    // Load default stream (Hindi) if already joined
     window.onload = () => {
-      if (sessionStorage.getItem('hasJoined') === 'true') {
-        playerFrame.src = hindiURL;
-      }
+      // Load default Hindi stream always on page load
+      playerFrame.src = hindiURL;
+
+      setTimeout(() => {
+        if (!sessionStorage.getItem('hasJoined')) {
+          showPopup();
+        }
+      }, 1500);
     };
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyAvEN3oBvGUs_Xm53Sbs4bwbB...",
+      authDomain: "cricfylive-ipl-live.firebaseapp.com",
+      databaseURL: "https://cricfylive-ipl-live-default-rtdb.firebaseio.com",
+      projectId: "cricfylive-ipl-live",
+      storageBucket: "cricfylive-ipl-live.appspot.com",
+      messagingSenderId: "685264651453",
+      appId: "1:685264651453:web:dcef3726742c...",
+      measurementId: "G-HK6LQQE6BQ"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const viewerRef = db.ref("liveViewers");
+    const userId = Date.now();
+
+    viewerRef.child(userId).set(true);
+    window.addEventListener("beforeunload", () => {
+      viewerRef.child(userId).remove();
+    });
+
+    viewerRef.on("value", (snapshot) => {
+      const count = snapshot.numChildren();
+      document.getElementById("liveBadge").innerText = `LIVE: ${count}`;
+    });
   </script>
 </body>
 </html>
