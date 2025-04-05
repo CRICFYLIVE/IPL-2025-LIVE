@@ -7,133 +7,176 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Teko:wght@400;700&display=swap');
     body {
-      background: #000;
+      background: black;
       color: white;
       font-family: 'Poppins', sans-serif;
+      text-align: center;
       margin: 0;
       padding: 0;
-      text-align: center;
     }
     .heading {
       font-family: 'Teko', sans-serif;
-      font-size: 2rem;
+      font-size: clamp(24px, 6vw, 40px);
+      margin: 10px 0 5px;
       color: white;
-      margin-top: 10px;
     }
     .slide-text {
-      font-style: italic;
       color: yellow;
-      animation: slide 10s linear infinite;
+      font-size: clamp(12px, 3.5vw, 18px);
+      font-style: italic;
+      margin-bottom: 10px;
+      animation: slide 12s linear infinite;
       white-space: nowrap;
       overflow: hidden;
     }
     @keyframes slide {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
+      from { transform: translateX(100%); }
+      to { transform: translateX(-100%); }
+    }
+    .container {
+      max-width: 960px;
+      margin: auto;
+      padding: 10px;
     }
     .player {
-      max-width: 960px;
-      aspect-ratio: 16/9;
-      margin: 10px auto;
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #111;
       border: 2px solid blue;
       border-radius: 6px;
       overflow: hidden;
-      position: relative;
     }
     iframe {
       width: 100%;
       height: 100%;
       border: none;
     }
-    .language-box, .language-list {
-      font-family: 'Poppins', sans-serif;
+    .language-box, .telegram-box {
+      display: inline-block;
+      margin: 8px 5px;
+      padding: 8px 12px;
+      border-radius: 5px;
       font-weight: bold;
-      margin-top: 5px;
+      cursor: pointer;
       user-select: none;
+      transition: 0.3s;
     }
     .language-box {
-      width: 100px;
       background: white;
       color: black;
-      padding: 6px;
-      border-radius: 5px;
-      cursor: pointer;
-      margin: 0 auto;
-    }
-    .language-list {
-      display: none;
-      background: white;
-      color: black;
-      padding: 8px 0;
-      margin: 5px auto;
-      width: 100px;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
-    }
-    .language-list div {
-      padding: 6px 0;
-      cursor: pointer;
-      border-bottom: 1px solid #ccc;
-      transition: background 0.3s ease;
-    }
-    .language-list div:last-child {
-      border-bottom: none;
-    }
-    .language-list div:hover {
-      background: #eee;
     }
     .telegram-box {
       background: blue;
       color: white;
-      width: 100px;
-      margin: 10px auto;
+      box-shadow: 0 0 6px blue;
+    }
+    /* Popup styles */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #1a2526;
+      padding: 20px;
+      border-radius: 10px;
+      border: 2px solid #ffd700;
+      box-shadow: 0 0 15px #ffd700;
+      z-index: 100;
+      text-align: center;
+      width: 80%;
+      max-width: 300px;
+    }
+    .popup h3 {
+      color: #00b7eb;
+      font-size: 22px;
+      margin-bottom: 10px;
+    }
+    .popup p {
+      color: white;
+      font-size: 14px;
+      margin-bottom: 15px;
+    }
+    .popup button {
+      width: 100%;
       padding: 10px;
-      border-radius: 6px;
+      margin: 5px 0;
+      border: none;
+      border-radius: 5px;
       font-weight: bold;
-      text-decoration: none;
-      display: inline-block;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    .popup .join-now {
+      background: #00b7eb;
+      color: white;
+    }
+    .popup .already-joined {
+      background: #3a4445;
+      color: white;
     }
   </style>
 </head>
 <body>
-
-  <div class="heading">IPL 2025 LIVE - CRICFYLIVE</div>
-  <div class="slide-text">Join @cricfylive for latest updates</div>
-
-  <div class="player">
-    <iframe id="streamFrame" src="https://webplayer-live.pages.dev?url=https://prod-ent-live-gm.jiocinema.com/bpk-tv/JS_M1_IPL25_HIN_IDC_MOB/Fallback/index.m3u8" allowfullscreen></iframe>
+  <div class="container">
+    <div class="heading">IPL 2025 LIVE - CRICFYLIVE</div>
+    <div class="slide-text">Join @cricfylive for latest updates</div>
+    <div class="player" id="playerBox">
+      <iframe id="playerFrame" src="" allowfullscreen></iframe>
+    </div>
+    <div class="language-box" onclick="switchLang('hindi')">Hindi</div>
+    <div class="language-box" onclick="switchLang('english')">English</div>
+    <a href="https://t.me/cricfylive" target="_blank">
+      <div class="telegram-box">Telegram</div>
+    </a>
   </div>
 
-  <div class="language-box" onclick="toggleLanguageList()">Hindi</div>
-  <div class="language-list" id="languageList">
-    <div onclick="changeLanguage('Hindi')">Hindi</div>
-    <div onclick="changeLanguage('English')">English</div>
+  <!-- Popup -->
+  <div class="popup" id="joinPopup">
+    <h3>Support Us!</h3>
+    <p>Join our Telegram channel CRICFyLive for more updates.</p>
+    <button class="join-now" onclick="joinNow()">Join Now</button>
+    <button class="already-joined" onclick="closePopup()">Already Joined</button>
   </div>
-
-  <a href="https://t.me/cricfylive" target="_blank" class="telegram-box">Telegram</a>
 
   <script>
-    function toggleLanguageList() {
-      const list = document.getElementById('languageList');
-      list.style.display = list.style.display === 'block' ? 'none' : 'block';
-    }
+    const hindiURL = 'https://webplayer-live.pages.dev?url=https://v18tataplaysyndication.akamaized.net/bpk-tv/Sports18_1_HD_voot_MOB/output03/index.m3u8?hdnea=exp=1743863214~acl=/*~hmac=3355d2520c1e9982635a8f9e5b868e9ac87cbe7a6f1acaa22b95454a85406196';
+    const englishURL = 'https://webplayer-live.pages.dev?url=https://prod-ent-live-gm.jiocinema.com/bpk-tv/JS_M1_IPL25_ENG_IDC_MOB/Fallback/index.m3u8';
 
-    function changeLanguage(lang) {
-      const box = document.querySelector('.language-box');
-      const list = document.getElementById('languageList');
-      const frame = document.getElementById('streamFrame');
+    const playerFrame = document.getElementById('playerFrame');
 
-      box.textContent = lang;
-      list.style.display = 'none';
-
-      if (lang === 'Hhttps://v18tataplaysyndication.akamaized.net/bpk-tv/Sports18_1_HD_voot_MOB/output03/index.m3u8?hdnea=exp=1743863214~acl=/*~hmac=3355d2520c1e9982635a8f9e5b868e9ac87cbe7a6f1acaa22b95454a85406196indi') {
-        frame.src = "";
-      } else if (lang === 'English') {
-        frame.src = "https://webplayer-liv.pages.dev?url=https://prod-ent-live-gm.jiocinema.com/bpk-tv/JS_M1_IPL25_ENG_IDC_MOB/Fallback/index.m3u8";
+    function switchLang(lang) {
+      if (sessionStorage.getItem('hasJoined') === 'true') {
+        playerFrame.src = (lang === 'hindi') ? hindiURL : englishURL;
+      } else {
+        sessionStorage.setItem('preferredLang', lang);
+        showPopup();
       }
     }
-  </script>
 
+    function showPopup() {
+      document.getElementById("joinPopup").style.display = "block";
+    }
+
+    function closePopup() {
+      document.getElementById("joinPopup").style.display = "none";
+      sessionStorage.setItem('hasJoined', 'true');
+      const lang = sessionStorage.getItem('preferredLang') || 'hindi';
+      switchLang(lang);
+    }
+
+    function joinNow() {
+      window.open("https://t.me/cricfylive", "_blank");
+      closePopup();
+    }
+
+    // Load default stream (Hindi) if already joined
+    window.onload = () => {
+      if (sessionStorage.getItem('hasJoined') === 'true') {
+        playerFrame.src = hindiURL;
+      }
+    };
+  </script>
 </body>
 </html>
