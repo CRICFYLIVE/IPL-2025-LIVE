@@ -5,27 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>IPL 2025 LIVE - CRICFYLIVE</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&family=Teko:wght@400;700&display=swap');
     body {
-      background: black;
-      color: white;
-      font-family: 'Poppins', sans-serif;
-      text-align: center;
       margin: 0;
-      padding: 0;
+      background: black;
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      text-align: center;
     }
     .heading {
-      font-family: 'Teko', sans-serif;
-      font-size: clamp(36px, 9vw, 54px);
-      margin: 10px 0 5px;
-      color: white;
+      font-size: 2rem;
+      font-weight: bold;
+      margin-top: 10px;
     }
     .slide-text {
       color: yellow;
-      font-size: clamp(12px, 3.5vw, 18px);
       font-style: italic;
       font-weight: bold;
-      margin: 5px 0 10px;
       animation: slide 12s linear infinite;
       white-space: nowrap;
       overflow: hidden;
@@ -44,7 +39,7 @@
       width: 100%;
       aspect-ratio: 16 / 9;
       background: #111;
-      border-radius: 6px;
+      border-radius: 8px;
       overflow: hidden;
     }
     iframe {
@@ -52,68 +47,16 @@
       height: 100%;
       border: none;
     }
-    #liveBadge {
-      position: absolute;
-      top: 4px;
-      left: 4px;
-      background: red;
-      color: white;
-      font-size: 8px;
-      font-weight: bold;
-      padding: 1px 3px;
-      border-radius: 2px;
-      z-index: 10;
-    }
-    .quality-box {
-      background: white;
-      color: black;
-      display: inline-block;
-      margin: 5px 3px;
-      padding: 3px 6px;
-      border-radius: 4px;
-      font-weight: bold;
-      font-size: 10px;
-      cursor: pointer;
-      user-select: none;
-      transition: 0.3s;
-    }
-    .quality-menu {
-      display: none;
-      background: white;
-      color: black;
-      border-radius: 4px;
-      margin-top: 5px;
-      text-align: left;
-      max-width: 100px;
-      margin-left: auto;
-      margin-right: auto;
-      box-shadow: 0 0 6px rgba(255, 255, 255, 0.2);
-    }
-    .quality-menu div {
-      padding: 4px 8px;
-      color: black;
-      cursor: pointer;
-      font-size: 10px;
-      border-bottom: 1px solid #ccc;
-    }
-    .quality-menu div:last-child {
-      border-bottom: none;
-    }
-    .quality-menu div:hover {
-      background: #00b7eb;
-      color: black;
-    }
     .telegram-box {
       background: #00b7eb;
       color: black;
       display: inline-block;
-      margin: 5px 3px;
-      padding: 3px 6px;
+      margin-top: 10px;
+      padding: 6px 12px;
       border-radius: 4px;
       font-weight: bold;
-      font-size: 10px;
+      font-size: 12px;
       cursor: pointer;
-      box-shadow: none;
     }
     .popup {
       display: none;
@@ -128,8 +71,8 @@
       box-shadow: 0 0 8px #87ceeb;
       z-index: 100;
       text-align: center;
-      width: 60%;
-      max-width: 160px;
+      width: 70%;
+      max-width: 180px;
     }
     .popup h3 {
       color: #00b7eb;
@@ -138,7 +81,7 @@
     }
     .popup p {
       color: white;
-      font-size: 12px;
+      font-size: 13px;
       margin-bottom: 10px;
     }
     .popup button {
@@ -165,25 +108,9 @@
   <div class="container">
     <div class="heading">IPL 2025 LIVE - CRICFYLIVE</div>
     <div class="slide-text">Join @cricfylive for latest updates</div>
-    <div class="player" id="playerBox">
-      <div id="liveBadge">LIVE: Loading...</div>
-      <iframe id="playerFrame" allowfullscreen></iframe>
+    <div class="player">
+      <iframe id="playerFrame" src="https://user4580.ifrem.net/iframe/frame.php" allowfullscreen></iframe>
     </div>
-
-    <!-- Quality Selector -->
-    <div style="margin-top: 10px">
-      <div class="quality-box" id="qualityBox" onclick="toggleQualityMenu()">Auto</div>
-      <div class="quality-menu" id="qualityMenu">
-        <div onclick="switchQuality('auto')">Auto</div>
-        <div onclick="switchQuality('240p')">240p</div>
-        <div onclick="switchQuality('360p')">360p</div>
-        <div onclick="switchQuality('480p')">480p</div>
-        <div onclick="switchQuality('720p')">720p</div>
-        <div onclick="switchQuality('1080p')">1080p</div>
-      </div>
-    </div>
-
-    <!-- Telegram Button -->
     <a href="https://t.me/cricfylive" target="_blank" onclick="return confirmTelegramJoin()">
       <div class="telegram-box">Join Telegram</div>
     </a>
@@ -197,35 +124,7 @@
     <button class="already-joined" onclick="closePopup()">Already Joined</button>
   </div>
 
-  <!-- Firebase & Scripts -->
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-database-compat.js"></script>
-
   <script>
-    const qualityLinks = {
-      auto: 'https://user4580.ifrem.net/iframe/frame.php',
-      '240p': 'https://user4580.ifrem.net/iframe/frame_240.php',
-      '360p': 'https://user4580.ifrem.net/iframe/frame_360.php',
-      '480p': 'https://user4580.ifrem.net/iframe/frame_480.php',
-      '720p': 'https://user4580.ifrem.net/iframe/frame_720.php',
-      '1080p': 'https://user4580.ifrem.net/iframe/frame_1080.php',
-    };
-
-    const playerFrame = document.getElementById('playerFrame');
-    const qualityBox = document.getElementById('qualityBox');
-
-    function toggleQualityMenu() {
-      const menu = document.getElementById("qualityMenu");
-      menu.style.display = menu.style.display === "block" ? "none" : "block";
-    }
-
-    function switchQuality(q) {
-      const url = qualityLinks[q] || qualityLinks.auto;
-      playerFrame.src = url;
-      qualityBox.innerText = q.charAt(0).toUpperCase() + q.slice(1); // Capitalize first letter
-      toggleQualityMenu();
-    }
-
     function showPopup() {
       document.getElementById("joinPopup").style.display = "block";
     }
@@ -247,82 +146,12 @@
     }
 
     window.onload = () => {
-      // Load default stream
-      playerFrame.src = qualityLinks.auto;
-      qualityBox.innerText = "Auto"; // Set default quality text
-
       setTimeout(() => {
         if (!sessionStorage.getItem('hasJoined')) {
           showPopup();
         }
       }, 1500);
     };
-
-    // Firebase setup
-    const firebaseConfig = {
-      // Replace with your Firebase project config from Firebase Console
-      apiKey: "YOUR_API_KEY",
-      authDomain: "cricfylive-ipl-live.firebaseapp.com",
-      databaseURL: "https://cricfylive-ipl-live-default-rtdb.firebaseio.com",
-      projectId: "cricfylive-ipl-live",
-      storageBucket: "cricfylive-ipl-live.appspot.com",
-      messagingSenderId: "685264651453",
-      appId: "YOUR_APP_ID",
-      measurementId: "G-HK6LQQE6BQ"
-    };
-
-    try {
-      firebase.initializeApp(firebaseConfig);
-      const db = firebase.database();
-      const viewerRef = db.ref("liveViewers");
-      const userId = Math.random().toString(36).substring(2) + Date.now();
-
-      // Add viewer
-      viewerRef.child(userId).set(true).catch((error) => {
-        console.error("Error setting viewer:", error);
-        document.getElementById("liveBadge").innerText = "LIVE: Error";
-      });
-
-      // Remove viewer on cleanup
-      let isRemoving = false;
-      const removeViewer = () => {
-        if (isRemoving) return;
-        isRemoving = true;
-        viewerRef.child(userId).remove().catch((error) => {
-          console.error("Error removing viewer:", error);
-        });
-      };
-
-      // Cleanup events
-      window.addEventListener("beforeunload", removeViewer);
-      window.addEventListener("pagehide", removeViewer);
-      document.addEventListener("visibilitychange", () => {
-        if (document.visibilityState === "hidden") {
-          removeViewer();
-        }
-      });
-
-      // Update viewer count
-      viewerRef.on(
-        "value",
-        (snapshot) => {
-          const count = snapshot.numChildren();
-          document.getElementById("liveBadge").innerText = `LIVE: ${count}`;
-        },
-        (error) => {
-          console.error("Error reading viewers:", error);
-          document.getElementById("liveBadge").innerText = "LIVE: Error";
-        }
-      );
-
-      // Handle offline state
-      window.addEventListener("offline", () => {
-        document.getElementById("liveBadge").innerText = "LIVE: Offline";
-      });
-    } catch (error) {
-      console.error("Firebase initialization error:", error);
-      document.getElementById("liveBadge").innerText = "LIVE: Error";
-    }
   </script>
 </body>
 </html>
