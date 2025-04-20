@@ -1,168 +1,160 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>IPL 2025 LIVE - CRICFYLIVE</title>
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Teko:wght@600&display=swap" rel="stylesheet">
-
-  <style>
-    body {
-      margin: 0;
-      background: black;
-      font-family: 'Poppins', sans-serif;
-      color: white;
-      text-align: center;
-    }
-    .heading {
-      font-family: 'Teko', sans-serif;
-      font-size: 2rem;
-      font-weight: 600;
-      margin-top: 10px;
-    }
-    .slide-text {
-      font-family: sans-serif;
-      font-style: italic;
-      color: yellow;
-      font-weight: bold;
-      animation: slide 12s linear infinite;
-      white-space: nowrap;
-      overflow: hidden;
-    }
-    @keyframes slide {
-      from { transform: translateX(100%); }
-      to { transform: translateX(-100%); }
-    }
-    .container {
-      max-width: 960px;
-      margin: auto;
-      padding: 10px;
-    }
-    .player {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 16 / 9;
-      background: #111;
-      border-radius: 8px;
-      overflow: hidden;
-    }
-    iframe {
-      width: 100%;
-      height: 100%;
-      border: none;
-    }
-    .telegram-box {
-      background: #00b7eb;
-      color: black;
-      display: inline-block;
-      margin-top: 10px;
-      padding: 6px 12px;
-      border-radius: 4px;
-      font-weight: bold;
-      font-size: 12px;
-      cursor: pointer;
-      font-family: 'Poppins', sans-serif;
-    }
-    .popup {
-      display: none;
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #1a2526;
-      padding: 10px;
-      border-radius: 10px;
-      border: 2px solid #00b7eb;
-      box-shadow: 0 0 8px #87ceeb;
-      z-index: 100;
-      text-align: center;
-      width: 70%;
-      max-width: 180px;
-      font-family: 'Poppins', sans-serif;
-    }
-    .popup h3 {
-      color: #00b7eb;
-      font-size: 16px;
-      margin-bottom: 6px;
-      font-family: 'Poppins', sans-serif;
-    }
-    .popup p {
-      color: white;
-      font-size: 13px;
-      margin-bottom: 10px;
-      font-family: 'Poppins', sans-serif;
-    }
-    .popup button {
-      width: 100%;
-      padding: 6px;
-      margin: 4px 0;
-      border: none;
-      border-radius: 5px;
-      font-weight: bold;
-      font-size: 12px;
-      cursor: pointer;
-      font-family: 'Poppins', sans-serif;
-    }
-    .popup .join-now {
-      background: #00b7eb;
-      color: white;
-    }
-    .popup .already-joined {
-      background: #3a4445;
-      color: white;
-    }
-  </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>IPL 2025 LIVE - CRICFYLIVE</title>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&family=Teko:wght@600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      font-family: 'Poppins', sans-serif;
+      color: white;
+      text-align: center;
+    }
+    .heading {
+      font-family: 'Teko', sans-serif;
+      font-size: 2.2rem;
+      margin-top: 10px;
+    }
+    .slide-text {
+      color: yellow;
+      font-style: italic;
+      font-weight: bold;
+      animation: slide 12s linear infinite;
+      white-space: nowrap;
+      overflow: hidden;
+    }
+    @keyframes slide {
+      from { transform: translateX(100%); }
+      to { transform: translateX(-100%); }
+    }
+    .container {
+      max-width: 960px;
+      margin: auto;
+      padding: 10px;
+    }
+    .player {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #111;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+    .telegram-box {
+      background: #00b7eb;
+      color: black;
+      display: inline-block;
+      margin-top: 10px;
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 12px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .popup {
+      display: none;
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: #1a2526;
+      padding: 10px;
+      border-radius: 10px;
+      border: 2px solid #00b7eb;
+      box-shadow: 0 0 8px #87ceeb;
+      z-index: 100;
+      text-align: center;
+      width: 70%;
+      max-width: 180px;
+    }
+    .popup h3 {
+      color: #00b7eb;
+      font-size: 16px;
+      margin-bottom: 6px;
+    }
+    .popup p {
+      color: white;
+      font-size: 13px;
+      margin-bottom: 10px;
+    }
+    .popup button {
+      width: 100%;
+      padding: 6px;
+      margin: 4px 0;
+      border: none;
+      border-radius: 5px;
+      font-weight: bold;
+      font-size: 12px;
+      cursor: pointer;
+    }
+    .popup .join-now {
+      background: #00b7eb;
+      color: white;
+    }
+    .popup .already-joined {
+      background: #3a4445;
+      color: white;
+    }
+  </style>
 </head>
 <body>
-  <div class="container">
-    <div class="heading">IPL 2025 LIVE - CRICFYLIVE</div>
-    <div class="slide-text">Join @cricfylive for latest updates</div>
-    <div class="player">
-      <iframe id="playerFrame" src="https://webplayer-live.pages.dev?url=https://v18tataplaysyndication.akamaized.net/bpk-tv/StarSports_2_Hin_HD_voot_MOB/output03/index.m3u8?hdnea=exp=1745153483~acl=/*~hmac=4e6515b6211564e6fa0a7cd6ef008a9b99fe90efe1a63bcb510d8b38c3bda10b" allowfullscreen></iframe>
-    </div>
-    <a href="https://t.me/cricfylive" target="_blank" onclick="return confirmTelegramJoin()">
-      <div class="telegram-box">Join Telegram</div>
-    </a>
-  </div>
+  <div class="container">
+    <div class="heading">IPL 2025 LIVE - CRICFYLIVE</div>
+    <div class="slide-text">Join @cricfylive for latest updates</div>
+    <div class="player">
+      <iframe id="playerFrame" src="https://webplayer-live.pages.dev?url=https://v18tataplaysyndication.akamaized.net/bpk-tv/StarSports_2_Hin_HD_voot_MOB/output03/index.m3u8?hdnea=exp=1745153483~acl=/*~hmac=4e6515b6211564e6fa0a7cd6ef008a9b99fe90efe1a63bcb510d8b38c3bda10b" allowfullscreen></iframe>
+    </div>
+    <a href="https://t.me/cricfylive" target="_blank" onclick="return confirmTelegramJoin()">
+      <div class="telegram-box">Join Telegram</div>
+    </a>
+  </div>
 
-  <!-- Telegram Join Popup -->
-  <div class="popup" id="joinPopup">
-    <h3>Support Us!</h3>
-    <p>Join our Telegram channel CRICFyLive for more updates.</p>
-    <button class="join-now" onclick="joinNow()">Join Now</button>
-    <button class="already-joined" onclick="closePopup()">Already Joined</button>
-  </div>
+  <!-- Telegram Join Popup -->
+  <div class="popup" id="joinPopup">
+    <h3>Support Us!</h3>
+    <p>Join our Telegram channel CRICFyLive for more updates.</p>
+    <button class="join-now" onclick="joinNow()">Join Now</button>
+    <button class="already-joined" onclick="closePopup()">Already Joined</button>
+  </div>
 
-  <script>
-    function showPopup() {
-      document.getElementById("joinPopup").style.display = "block";
-    }
+  <script>
+    function showPopup() {
+      document.getElementById("joinPopup").style.display = "block";
+    }
 
-    function closePopup() {
-      document.getElementById("joinPopup").style.display = "none";
-      sessionStorage.setItem('hasJoined', 'true');
-    }
+    function closePopup() {
+      document.getElementById("joinPopup").style.display = "none";
+      sessionStorage.setItem('hasJoined', 'true');
+    }
 
-    function joinNow() {
-      if (confirm("Do you want to join our Telegram channel?")) {
-        window.open("https://t.me/cricfylive", "_blank");
-      }
-      closePopup();
-    }
+    function joinNow() {
+      if (confirm("Do you want to join our Telegram channel?")) {
+        window.open("https://t.me/cricfylive", "_blank");
+      }
+      closePopup();
+    }
 
-    function confirmTelegramJoin() {
-      return confirm("Do you want to join our Telegram channel?");
-    }
+    function confirmTelegramJoin() {
+      return confirm("Do you want to join our Telegram channel?");
+    }
 
-    window.onload = () => {
-      setTimeout(() => {
-        if (!sessionStorage.getItem('hasJoined')) {
-          showPopup();
-        }
-      }, 1500);
-    };
-  </script>
+    window.onload = () => {
+      setTimeout(() => {
+        if (!sessionStorage.getItem('hasJoined')) {
+          showPopup();
+        }
+      }, 1500);
+    };
+  </script>
 </body>
 </html>
