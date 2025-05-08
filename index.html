@@ -1,4 +1,4 @@
-bi<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
@@ -114,9 +114,7 @@ bi<!DOCTYPE html>
     <div class="player">
       <iframe id="playerFrame" src="https://userr3536.ifrem.net/iframe/frame.php" allowfullscreen></iframe>
     </div>
-    <a href="https://t.me/cricfylive" target="_blank" onclick="return confirmTelegramJoin()">
-      <div class="telegram-box">Join Telegram</div>
-    </a>
+    <div class="telegram-box" onclick="showPopup()">Join Telegram</div>
   </div>
 
   <!-- Telegram Join Popup -->
@@ -134,27 +132,12 @@ bi<!DOCTYPE html>
 
     function closePopup() {
       document.getElementById("joinPopup").style.display = "none";
-      sessionStorage.setItem('hasJoined', 'true');
     }
 
     function joinNow() {
-      if (confirm("Do you want to join our Telegram channel?")) {
-        window.open("https://t.me/cricfylive", "_blank");
-      }
+      window.open("https://t.me/cricfylive", "_blank");
       closePopup();
     }
-
-    function confirmTelegramJoin() {
-      return confirm("Do you want to join our Telegram channel?");
-    }
-
-    window.onload = () => {
-      setTimeout(() => {
-        if (!sessionStorage.getItem('hasJoined')) {
-          showPopup();
-        }
-      }, 1500);
-    };
   </script>
 </body>
 </html>
